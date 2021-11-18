@@ -1,4 +1,4 @@
-from kedro.pipeline import Pipeline, node
+from kedro.pipeline import Pipeline, node, pipeline
 
 from .nodes import (
     aggregate_company_data,
@@ -9,7 +9,14 @@ from .nodes import (
 )
 
 
-def create_pipeline(**kwargs):
+def create_pipeline(**kwargs) -> Pipeline:
+    """This method imports the python functions which accept raw data,
+    add types and wrangle into primary layer outputs.
+
+    Returns:
+        Pipeline: A set of nodes which take data from the raw to
+        the intermediate then primary layers.
+    """
     return Pipeline(
         [
             node(
@@ -44,4 +51,27 @@ def create_pipeline(**kwargs):
                 name="combine_step",
             ),
         ]
+    )
+
+
+def new_ingestion_pipeline(namespace: str) -> Pipeline:
+    """This function creates a new instance of the ingestion pipeline
+    declared above, however it ensures
+    that the pipeline inputs and outputs are appropriately namespaced
+    and the input/output datasets are mapped to the right catalog values.
+
+    Args:
+        namespace (str): The namespace to apply
+
+    Returns:
+        Pipeline: The correctly namespaced pipeline
+    """
+    return pipeline(
+        create_pipeline(),
+        namespace=namespace,  # provide inputs
+        inputs={"reviews", "shuttles", "companies"},  # map inputs outside of namespace
+        outputs={
+            "prm_spine_table",
+            "prm_shuttle_company_reviews",
+        },
     )
