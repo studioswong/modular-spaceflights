@@ -1,4 +1,5 @@
-from kedro.pipeline import Pipeline, node, pipeline
+from kedro.pipeline import Pipeline, node
+from kedro.pipeline.modular_pipeline import pipeline
 
 from .nodes import (
     aggregate_company_data,
@@ -54,7 +55,7 @@ def create_pipeline(**kwargs) -> Pipeline:
     )
 
 
-def new_ingestion_pipeline(namespace: str) -> Pipeline:
+def new_ingestion_pipeline(namespace: str = "ingestion") -> Pipeline:
     """This function creates a new instance of the ingestion pipeline
     declared above, however it ensures
     that the pipeline inputs and outputs are appropriately namespaced
@@ -67,7 +68,7 @@ def new_ingestion_pipeline(namespace: str) -> Pipeline:
         Pipeline: The correctly namespaced pipeline
     """
     return pipeline(
-        create_pipeline(),
+        pipe=create_pipeline(),
         namespace=namespace,  # provide inputs
         inputs={"reviews", "shuttles", "companies"},  # map inputs outside of namespace
         outputs={
