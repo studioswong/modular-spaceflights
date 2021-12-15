@@ -12,27 +12,23 @@ from modular_spaceflights.pipelines.reporting.nodes import (
 )
 
 
-def create_pipeline(**kwargs):
-    """This is a simple pipeline which 
-
-    Returns:
-        [type]: [description]
-    """
+def create_pipeline(**kwargs) -> Pipeline:
+    """This is a simple pipeline which generates a series of plots"""
     return Pipeline(
         [
             node(
                 func=make_cancel_policy_bar_chart,
-                inputs="model_input_table",
+                inputs="prm_shuttle_company_reviews",
                 outputs="cancellation_policy_breakdown",
             ),
             node(
                 func=make_price_histogram,
-                inputs="model_input_table",
+                inputs="prm_shuttle_company_reviews",
                 outputs="price_histogram",
             ),
             node(
                 func=make_price_analysis_image,
-                inputs="model_input_table",
+                inputs="prm_shuttle_company_reviews",
                 outputs="cancellation_policy_grid",
             ),
         ]
