@@ -1,17 +1,13 @@
 """
 This is a boilerplate pipeline 'feature_engineering'
-generated using Kedro 0.17.5
+generated using Kedro 0.17.6
 """
 
 
 from kedro.pipeline import Pipeline, node
 from kedro.pipeline.modular_pipeline import pipeline
 
-from modular_spaceflights.pipelines.feature_engineering.nodes import (
-    create_derived_features,
-    create_static_features,
-    joiner,
-)
+from .nodes import create_derived_features, create_static_features, joiner
 
 
 def new_feature_pipeline() -> Pipeline:
