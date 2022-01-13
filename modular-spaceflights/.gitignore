@@ -21,7 +21,7 @@ logs/**
 
 # keep also the example dataset and the session store db
 !data/01_raw/*
-!data/09_tracking/*
+!data/09_tracking/**/.*
 !data/session_store.db
 
 ##########################
